@@ -23,8 +23,8 @@ enum ViewControllers {
     var viewController: UIViewController {
         switch self {
         case .main:
-//            let presenter =
-            return ScannerViewController()
+            let presenter = ScannerPresenter()
+            return ScannerViewController(presenter: presenter)
         }
     }
 }

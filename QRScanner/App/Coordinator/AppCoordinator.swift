@@ -36,7 +36,8 @@ final class AppCoodrinator: Coordinator {
 
         switch type {
         case .main:
-            viewController = ScannerViewController()
+            let presenter = ScannerPresenter()
+            viewController = ScannerViewController(presenter: presenter)
             return viewController
         }
     }
