@@ -10,11 +10,11 @@ import UIKit // зависимость от UIKit - плохо
 
 protocol ScannerPresenterType {
     func setupCamera(captureSession: AVCaptureSession)
-    func push()
+    func push(url: String)
 }
 
 final class ScannerPresenter: ScannerPresenterType {
-    weak var coordinator: AppCoodrinator?
+    weak var coordinator: AppCoordinator?
 
     func setupCamera(captureSession: AVCaptureSession) {
         guard let captureDevice = AVCaptureDevice.default(for: .video) else {
@@ -31,7 +31,7 @@ final class ScannerPresenter: ScannerPresenterType {
         }
     }
 
-    func push() {
-//        coordinator?.performTransition(with: .perform())
+    func push(url: String) {
+        coordinator?.performTransition(with: .perform(.web), url: url)
     }
 }

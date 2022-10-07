@@ -52,7 +52,8 @@ final class ScannerViewController: UIViewController {
         view.addSubview(qrCodeFrameView)
         view.bringSubviewToFront(qrCodeFrameView)
 
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self else { return }
             self.captureSession.startRunning()
         }
     }
@@ -75,11 +76,8 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             qrCodeFrameView.frame = barCodeObject!.bounds
 
             if metadataObj.stringValue != nil {
-                print(metadataObj.stringValue)
-                let webView = WKWebView()
-                let url = URL(string: metadataObj.stringValue ?? "")
-                webView.load(URLRequest(url: url!))
-                webView.allowsBackForwardNavigationGestures = true
+                presenter.push(url: metadataObj.stringValue ?? "")
+                videoPreviewLayer?.session?.stopRunning()
             }
         }
     }
