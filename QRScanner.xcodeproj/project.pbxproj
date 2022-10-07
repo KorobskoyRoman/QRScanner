@@ -20,7 +20,6 @@
 		9C5C049328EF71AC00CB7941 /* ScannerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C049228EF71AC00CB7941 /* ScannerPresenter.swift */; };
 		9C5C049728F0992A00CB7941 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C049628F0992A00CB7941 /* WebViewController.swift */; };
 		9C5C049A28F0993A00CB7941 /* WebPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C049928F0993A00CB7941 /* WebPresenter.swift */; };
-		9C5C049C28F0C9B000CB7941 /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C049B28F0C9B000CB7941 /* Data+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +38,6 @@
 		9C5C049228EF71AC00CB7941 /* ScannerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerPresenter.swift; sourceTree = "<group>"; };
 		9C5C049628F0992A00CB7941 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		9C5C049928F0993A00CB7941 /* WebPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPresenter.swift; sourceTree = "<group>"; };
-		9C5C049B28F0C9B000CB7941 /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +130,6 @@
 			children = (
 				9C5C047928EF518C00CB7941 /* Assets.xcassets */,
 				9C5C047B28EF518C00CB7941 /* LaunchScreen.storyboard */,
-				9C5C049B28F0C9B000CB7941 /* Data+.swift */,
 			);
 			path = "Support files";
 			sourceTree = "<group>";
@@ -243,7 +240,6 @@
 				9C5C047328EF518A00CB7941 /* SceneDelegate.swift in Sources */,
 				9C5C048F28EF61BD00CB7941 /* CodeFrameView.swift in Sources */,
 				9C5C049A28F0993A00CB7941 /* WebPresenter.swift in Sources */,
-				9C5C049C28F0C9B000CB7941 /* Data+.swift in Sources */,
 				9C5C049328EF71AC00CB7941 /* ScannerPresenter.swift in Sources */,
 				9C5C049728F0992A00CB7941 /* WebViewController.swift in Sources */,
 			);
