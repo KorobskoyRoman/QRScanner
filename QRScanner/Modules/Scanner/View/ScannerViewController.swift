@@ -33,45 +33,28 @@ final class ScannerViewController: UIViewController {
     }
 
     private func setupCamera() {
-//        guard let captureDevice = AVCaptureDevice.default(for: .video) else {
-//            print("Failed to get the camera device")
-//            return
-//        }
-//
-//        do {
-//            let input = try AVCaptureDeviceInput(device: captureDevice)
-//            captureSession.addInput(input)
-//        } catch {
-//            print(error)
-//            return
-//        }
         presenter.setupCamera(captureSession: captureSession)
     }
 
     private func setupOutputs() {
-//        let captureMetadataOutput = AVCaptureMetadataOutput()
-//        captureSession.addOutput(captureMetadataOutput)
-//        captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-////        captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
-//        captureMetadataOutput.metadataObjectTypes = captureMetadataOutput.availableMetadataObjectTypes
-        presenter.setupOutputs(captureSession: captureSession, delegate: self)
+        let captureMetadataOutput = AVCaptureMetadataOutput()
+        captureSession.addOutput(captureMetadataOutput)
+        captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+//        captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
+        captureMetadataOutput.metadataObjectTypes = captureMetadataOutput.availableMetadataObjectTypes
     }
 
     private func setupVideoPreview() {
-//        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-//        videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-//        videoPreviewLayer?.frame = view.layer.bounds
-//        view.layer.addSublayer(videoPreviewLayer ?? CALayer())
-//        view.addSubview(qrCodeFrameView)
-//        view.bringSubviewToFront(qrCodeFrameView)
-//
-//        DispatchQueue.global(qos: .background).async {
-//            self.captureSession.startRunning()
-//        }
-        presenter.setupVideoPreview(videoPreviewLayer: videoPreviewLayer,
-                                    captureSession: captureSession,
-                                    delegate: self,
-                                    qrCodeFrameView: qrCodeFrameView)
+        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        videoPreviewLayer?.frame = view.layer.bounds
+        view.layer.addSublayer(videoPreviewLayer ?? CALayer())
+        view.addSubview(qrCodeFrameView)
+        view.bringSubviewToFront(qrCodeFrameView)
+
+        DispatchQueue.global(qos: .background).async {
+            self.captureSession.startRunning()
+        }
     }
 }
 
@@ -79,26 +62,25 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject],
                         from connection: AVCaptureConnection) {
-//        if metadataObjects.count == 0 {
-//            qrCodeFrameView.frame = CGRect.zero
-//            return
-//        }
-//
-//        guard let metadataObj = metadataObjects[0]
-//                as? AVMetadataMachineReadableCodeObject else { return }
-//
-//        if metadataObj.type == AVMetadataObject.ObjectType.qr {
-//            let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
-//            qrCodeFrameView.frame = barCodeObject!.bounds
-//
-//            if metadataObj.stringValue != nil {
-//                print(metadataObj.stringValue)
-//                let webView = WKWebView()
-//                let url = URL(string: metadataObj.stringValue ?? "")
-//                webView.load(URLRequest(url: url!))
-//                webView.allowsBackForwardNavigationGestures = true
-//            }
-//        }
-        presenter.metadataOutput(output, didOutput: metadataObjects, from: connection, videoPreviewLayer: videoPreviewLayer, qrCodeFrameView: qrCodeFrameView)
+        if metadataObjects.count == 0 {
+            qrCodeFrameView.frame = CGRect.zero
+            return
+        }
+
+        guard let metadataObj = metadataObjects[0]
+                as? AVMetadataMachineReadableCodeObject else { return }
+
+        if metadataObj.type == AVMetadataObject.ObjectType.qr {
+            let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
+            qrCodeFrameView.frame = barCodeObject!.bounds
+
+            if metadataObj.stringValue != nil {
+                print(metadataObj.stringValue)
+                let webView = WKWebView()
+                let url = URL(string: metadataObj.stringValue ?? "")
+                webView.load(URLRequest(url: url!))
+                webView.allowsBackForwardNavigationGestures = true
+            }
+        }
     }
 }
