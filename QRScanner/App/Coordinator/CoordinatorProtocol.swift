@@ -9,7 +9,7 @@ import UIKit
 
 protocol Coordinator {
     func start()
-    func performTransition(with type: Transition)
+    func performTransition(with type: Transition, url: String)
 }
 
 enum Transition {
@@ -19,12 +19,16 @@ enum Transition {
 
 enum ViewControllers {
     case main
+    case web
 
     var viewController: UIViewController {
         switch self {
         case .main:
             let presenter = ScannerPresenter()
             return ScannerViewController(presenter: presenter)
+        case .web:
+            let presenter = WebPresenter()
+            return WebViewController(presenter: presenter)
         }
     }
 }
