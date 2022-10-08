@@ -9,7 +9,13 @@ import UIKit
 import AVFoundation
 import WebKit
 
-final class ScannerViewController: UIViewController {
+protocol ScannerView {
+    func setupCamera()
+    func setupOutputs()
+    func setupVideoPreview()
+}
+
+final class ScannerViewController: UIViewController, ScannerView {
     private var presenter: ScannerPresenterType
     private var captureSession = AVCaptureSession()
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
@@ -27,16 +33,14 @@ final class ScannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        setupCamera()
-        setupOutputs()
-        setupVideoPreview()
+        presenter.viewDidLoad()
     }
 
-    private func setupCamera() {
+    func setupCamera() {
         presenter.setupCamera(captureSession: captureSession)
     }
 
-    private func setupOutputs() {
+    func setupOutputs() {
         let captureMetadataOutput = AVCaptureMetadataOutput()
         captureSession.addOutput(captureMetadataOutput)
         captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
@@ -44,7 +48,7 @@ final class ScannerViewController: UIViewController {
         captureMetadataOutput.metadataObjectTypes = captureMetadataOutput.availableMetadataObjectTypes
     }
 
-    private func setupVideoPreview() {
+    func setupVideoPreview() {
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         videoPreviewLayer?.frame = view.layer.bounds
