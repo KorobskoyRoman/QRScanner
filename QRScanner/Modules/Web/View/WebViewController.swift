@@ -10,19 +10,17 @@ import WebKit
 
 protocol WebViewType {
     func startDownload()
+    func showError()
+    func getData(data: Data)
 }
 
 final class WebViewController: UIViewController {
-    private let presenter: WebPresenterType
+    var presenter: WebPresenterType
     private var webView = WKWebView()
 
     private lazy var progressView: UIProgressView = {
         let progressView = UIProgressView()
         return progressView
-    }()
-    private lazy var shareButton: UIButton = {
-        let button = UIButton()
-        return button
     }()
 
     init(presenter: WebPresenterType) {
@@ -36,17 +34,14 @@ final class WebViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
         setupView()
         setConstraints()
-        startDownload()
+        presenter.viewDidLoad()
     }
 
     private func setupView() {
         view = webView
         webView.navigationDelegate = self
-        webView.allowsBackForwardNavigationGestures = true
-        webView.allowsLinkPreview = true
         webView.addObserver(self,
                             forKeyPath: #keyPath(WKWebView.estimatedProgress),
                             options: .new,
@@ -55,7 +50,7 @@ final class WebViewController: UIViewController {
 
     private func setConstraints() {
         webView.addSubview(progressView)
-        progressView.translatesAutoresizingMaskIntoConstraints = false
+        webView.subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
         NSLayoutConstraint.activate([
             progressView.topAnchor.constraint(equalTo: webView.safeAreaLayoutGuide.topAnchor),
@@ -74,45 +69,52 @@ final class WebViewController: UIViewController {
             print(progressView.progress) // Отследить прогресс
         }
     }
+
+    private func hideContent() {
+        UIView.animate(withDuration: 0.3, delay: 1) { [weak self] in
+            guard let self else { return }
+            self.progressView.alpha = 0
+            self.progressView.removeFromSuperview()
+        }
+    }
 }
 
 extension WebViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        guard let url = URL(string: presenter.urlString) else { return }
-
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else { return }
-            let tmpURL = FileManager.default.temporaryDirectory
-                .appendingPathComponent(response?.suggestedFilename ?? "fileName.png")
-            do {
-                try data.write(to: tmpURL)
-            } catch {
-                print(error)
-            }
-            DispatchQueue.main.async {
-                let activityView = UIActivityViewController(activityItems: [data], applicationActivities: nil)
-                self.present(activityView, animated: true)
-                activityView.completionWithItemsHandler  = { activity, success, items, error in
-                    if activity?.rawValue == "com.apple.DocumentManagerUICore.SaveToFiles" {
-                        switch success {
-                        case true:
-                            AlertView.showIn(viewController: self, message: "Saved successfully")
-                        case false:
-                            AlertView.showIn(viewController: self, message: "Something wrong. Try again later")
-                        }
-                    }
-                }
-            }
-        }.resume()
-    }
-
-    private func documentDirectory() -> URL {
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        return documentsDirectory
+    func webView(_ webView: WKWebView,
+                 didFinish navigation: WKNavigation!) {
+        hideContent()
+        presenter.getData()
     }
 }
 
 extension WebViewController: WebViewType {
+    func showError() {
+        DispatchQueue.main.async {
+            AlertView.showIn(viewController: self,
+                             message: "Something wrong. Try again later")
+        }
+    }
+
+    func getData(data: Data) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let activityView = UIActivityViewController(activityItems: [data], applicationActivities: nil)
+
+            self.present(activityView, animated: true)
+            activityView.completionWithItemsHandler  = { activity, success, items, error in
+                if activity?.rawValue == "com.apple.DocumentManagerUICore.SaveToFiles" {
+                    switch success {
+                    case true:
+                        AlertView.showIn(viewController: self,
+                                         message: "Saved successfully")
+                    case false:
+                        self.showError()
+                    }
+                }
+            }
+        }
+    }
+
     func startDownload() {
         presenter.startDownload(with: webView)
     }
