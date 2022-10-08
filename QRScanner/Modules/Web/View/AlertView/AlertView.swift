@@ -25,7 +25,8 @@ final class AlertView: UIView {
         self.layer.cornerRadius = cornerRadius
     }
 
-    static func showIn(viewController: UIViewController, message: String) {
+    static func showIn(viewController: UIViewController,
+                       message: String) {
 
         var displayVC = viewController
 
@@ -45,24 +46,21 @@ final class AlertView: UIView {
         sharedView.textLabel.text = message
 
         if sharedView?.superview == nil {
-            let y = displayVC.view.frame.height - sharedView.frame.size.height - 12
+            let y = displayVC.view.frame.height - sharedView.frame.size.height - 30
             sharedView.frame = CGRect(x: 12, y: y, width: displayVC.view.frame.size.width - 24, height: sharedView.frame.size.height)
             sharedView.alpha = 0.0
 
             displayVC.view.addSubview(sharedView)
             sharedView.fadeIn()
-
-            // this call needs to be counter balanced on fadeOut [1]
             sharedView.perform(#selector(fadeOut), with: nil, afterDelay: 3.0)
         }
     }
 
-    @IBAction private func closePressed(_ sender: UIButton) {
+    @IBAction
+    private func closePressed(_ sender: UIButton) {
         fadeOut()
     }
 
-
-    // MARK: Animations
     private func fadeIn() {
         UIView.animate(withDuration: 0.33, animations: {
             self.alpha = 1.0
@@ -71,8 +69,6 @@ final class AlertView: UIView {
 
     @objc
     private func fadeOut() {
-
-        // [1] Counter balance previous perfom:with:afterDelay
         NSObject.cancelPreviousPerformRequests(withTarget: self)
 
         UIView.animate(withDuration: 0.33, animations: {
