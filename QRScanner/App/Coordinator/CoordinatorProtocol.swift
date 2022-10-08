@@ -27,7 +27,7 @@ enum ViewControllers {
             let presenter = ScannerPresenter()
             return ScannerViewController(presenter: presenter)
         case .web:
-            let presenter = WebPresenter()
+            let presenter = WebPresenter(urlString: "")
             return WebViewController(presenter: presenter)
         }
     }

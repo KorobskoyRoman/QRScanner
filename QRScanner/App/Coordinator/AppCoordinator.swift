@@ -25,10 +25,9 @@ final class AppCoordinator: Coordinator {
         switch type {
         case .perform(let vc):
             let viewController = getViewControllerByType(type: vc)
-            let presenter = WebPresenter()
-            
-            if ((viewController as? WebViewController) != nil) {
-                presenter.urlString = url
+
+            if let controller = viewController as? WebViewController {
+                controller.presenter.urlString = url
             }
 
             viewController.modalPresentationStyle = .fullScreen
@@ -39,8 +38,10 @@ final class AppCoordinator: Coordinator {
         }
     }
 
-    private func getViewControllerByType(type: ViewControllers,
-                                         url: String = "") -> UIViewController {
+    private func getViewControllerByType(
+        type: ViewControllers,
+        url: String = ""
+    ) -> UIViewController {
         var viewController: UIViewController
 
         switch type {
@@ -48,10 +49,12 @@ final class AppCoordinator: Coordinator {
             let presenter = ScannerPresenter()
             presenter.coordinator = self
             viewController = ScannerViewController(presenter: presenter)
+            presenter.view = viewController as? ScannerViewController
             return viewController
         case .web:
-            let presenter = WebPresenter()
+            let presenter = WebPresenter(urlString: url)
             viewController = WebViewController(presenter: presenter)
+            presenter.view = viewController as? WebViewController
             return viewController
         }
     }
