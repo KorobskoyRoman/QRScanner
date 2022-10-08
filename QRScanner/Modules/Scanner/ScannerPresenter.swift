@@ -5,16 +5,23 @@
 //  Created by Roman Korobskoy on 06.10.2022.
 //
 
-import AVFoundation // зависимость
-import UIKit // зависимость от UIKit - плохо
+import AVFoundation
 
 protocol ScannerPresenterType {
+    func viewDidLoad()
     func setupCamera(captureSession: AVCaptureSession)
-    func push()
+    func push(url: String)
 }
 
 final class ScannerPresenter: ScannerPresenterType {
-    weak var coordinator: AppCoodrinator?
+    weak var coordinator: AppCoordinator?
+    weak var view: ScannerViewController?
+
+    func viewDidLoad() {
+        view?.setupCamera()
+        view?.setupOutputs()
+        view?.setupVideoPreview()
+    }
 
     func setupCamera(captureSession: AVCaptureSession) {
         guard let captureDevice = AVCaptureDevice.default(for: .video) else {
@@ -31,7 +38,7 @@ final class ScannerPresenter: ScannerPresenterType {
         }
     }
 
-    func push() {
-//        coordinator?.performTransition(with: .perform())
+    func push(url: String) {
+        coordinator?.performTransition(with: .perform(.web), url: url)
     }
 }

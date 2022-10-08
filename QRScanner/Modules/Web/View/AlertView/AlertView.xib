@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="nBE-rE-kxv" customClass="AlertView" customModule="QRScanner" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="321" height="53"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999998807907104" translatesAutoresizingMaskIntoConstraints="NO" id="Niy-WP-ZHs">
+                    <rect key="frame" x="12.000000000000002" y="18" width="24.666666666666671" height="17"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FXQ-fx-Web">
+                    <rect key="frame" x="277" y="0.0" width="44" height="53"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="44" id="1Gk-wI-Wiu"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="qjH-VS-Nzr"/>
+                    </constraints>
+                    <state key="normal" image="closeSmall"/>
+                    <connections>
+                        <action selector="closePressed:" destination="nBE-rE-kxv" eventType="touchUpInside" id="hZh-1X-4VM"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="AiM-Zi-VCe"/>
+            <color key="backgroundColor" red="0.85490196080000003" green="0.0" blue="0.090196078430000007" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="FXQ-fx-Web" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Niy-WP-ZHs" secondAttribute="trailing" constant="4" id="7t8-8l-yM6"/>
+                <constraint firstItem="Niy-WP-ZHs" firstAttribute="top" relation="greaterThanOrEqual" secondItem="nBE-rE-kxv" secondAttribute="top" constant="9" id="JmF-O8-aIN"/>
+                <constraint firstItem="Niy-WP-ZHs" firstAttribute="leading" secondItem="nBE-rE-kxv" secondAttribute="leading" constant="12" id="VxC-bB-pf0"/>
+                <constraint firstAttribute="bottom" secondItem="FXQ-fx-Web" secondAttribute="bottom" id="e8s-Cx-vpe"/>
+                <constraint firstItem="Niy-WP-ZHs" firstAttribute="centerY" secondItem="nBE-rE-kxv" secondAttribute="centerY" id="gdd-qc-QMH"/>
+                <constraint firstAttribute="trailing" secondItem="FXQ-fx-Web" secondAttribute="trailing" id="pAv-D8-eHw"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Niy-WP-ZHs" secondAttribute="bottom" constant="9" id="veg-0a-rIr"/>
+                <constraint firstItem="FXQ-fx-Web" firstAttribute="top" secondItem="nBE-rE-kxv" secondAttribute="top" id="y1Z-VX-YBO"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="closeButton" destination="FXQ-fx-Web" id="GjU-4j-g5Y"/>
+                <outlet property="textLabel" destination="Niy-WP-ZHs" id="YTj-nA-Z9c"/>
+            </connections>
+            <point key="canvasLocation" x="-1.5" y="-254.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="closeSmall" width="12" height="12"/>
+    </resources>
+</document>
