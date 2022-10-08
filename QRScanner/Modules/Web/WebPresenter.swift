@@ -10,17 +10,39 @@ import WebKit
 
 protocol WebPresenterType {
     var urlString: String { get set }
-    var reload: (() -> Void)? { get set }
+    func viewDidLoad()
     func startDownload(with webView: WKWebView)
+    func getData()
 }
 
 final class WebPresenter: WebPresenterType {
-    var reload: (() -> Void)?
-//    var urlString: String = ""
-    var urlString: String = "https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf"
+    var urlString: String
+    weak var view: WebViewController?
+
+    init(urlString: String) {
+        self.urlString = urlString
+    }
+
+    func viewDidLoad() {
+        view?.startDownload()
+    }
 
     func startDownload(with webView: WKWebView) {
         guard let url = URL(string: urlString) else { return }
         webView.load(URLRequest(url: url))
+    }
+
+    func getData() {
+        guard let url = URL(string: urlString) else { return }
+
+        NetworkService.shared.getData(url: url) { result in
+            switch result {
+            case .success(let data):
+                self.view?.getData(data: data)
+            case .failure(let error):
+                print(error)
+                self.view?.showError()
+            }
+        }
     }
 }
