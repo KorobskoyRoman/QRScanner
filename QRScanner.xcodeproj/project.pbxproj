@@ -3,12 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		9C3AE39128F0DF7F0085CB6E /* AlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C3AE38F28F0DF7F0085CB6E /* AlertView.xib */; };
 		9C3AE39428F0DFD90085CB6E /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AE39328F0DFD90085CB6E /* AlertView.swift */; };
+		9C3AE39728F116380085CB6E /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AE39628F116380085CB6E /* NetworkService.swift */; };
 		9C5C047128EF518A00CB7941 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C047028EF518A00CB7941 /* AppDelegate.swift */; };
 		9C5C047328EF518A00CB7941 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C047228EF518A00CB7941 /* SceneDelegate.swift */; };
 		9C5C047528EF518A00CB7941 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C047428EF518A00CB7941 /* ScannerViewController.swift */; };
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		9C3AE38F28F0DF7F0085CB6E /* AlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AlertView.xib; path = QRScanner/Modules/Web/View/AlertView/AlertView.xib; sourceTree = SOURCE_ROOT; };
 		9C3AE39328F0DFD90085CB6E /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		9C3AE39628F116380085CB6E /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		9C5C046D28EF518A00CB7941 /* QRScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C5C047028EF518A00CB7941 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C5C047228EF518A00CB7941 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +53,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C3AE39528F1162C0085CB6E /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				9C3AE39628F116380085CB6E /* NetworkService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		9C5C046428EF518A00CB7941 = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +82,7 @@
 			children = (
 				9C5C048428EF519D00CB7941 /* App */,
 				9C5C048528EF51A600CB7941 /* Modules */,
+				9C3AE39528F1162C0085CB6E /* Service */,
 				9C5C048D28EF555500CB7941 /* Support files */,
 				9C5C047E28EF518C00CB7941 /* Info.plist */,
 			);
@@ -197,7 +208,7 @@
 				};
 			};
 			buildConfigurationList = 9C5C046828EF518A00CB7941 /* Build configuration list for PBXProject "QRScanner" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -232,6 +243,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C3AE39728F116380085CB6E /* NetworkService.swift in Sources */,
 				9C5C048A28EF535700CB7941 /* CoordinatorProtocol.swift in Sources */,
 				9C5C047528EF518A00CB7941 /* ScannerViewController.swift in Sources */,
 				9C5C048C28EF53CE00CB7941 /* AppCoordinator.swift in Sources */,
