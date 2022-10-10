@@ -9,13 +9,13 @@ import UIKit
 import AVFoundation
 import WebKit
 
-protocol ScannerView {
+protocol ScannerViewInput {
     func setupCamera()
     func setupOutputs()
     func setupVideoPreview()
 }
 
-final class ScannerViewController: UIViewController, ScannerView {
+final class ScannerViewController: UIViewController, ScannerViewInput {
     private var presenter: ScannerPresenterType
     private var captureSession = AVCaptureSession()
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
@@ -44,7 +44,6 @@ final class ScannerViewController: UIViewController, ScannerView {
         let captureMetadataOutput = AVCaptureMetadataOutput()
         captureSession.addOutput(captureMetadataOutput)
         captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-//        captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
         captureMetadataOutput.metadataObjectTypes = captureMetadataOutput.availableMetadataObjectTypes
     }
 
@@ -73,16 +72,15 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         }
 
         guard let metadataObj = metadataObjects[0]
-                as? AVMetadataMachineReadableCodeObject else { return }
+                as? AVMetadataMachineReadableCodeObject,
+              metadataObj.type == AVMetadataObject.ObjectType.qr
+        else { return }
 
-        if metadataObj.type == AVMetadataObject.ObjectType.qr {
-            let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
-            qrCodeFrameView.frame = barCodeObject!.bounds
+        let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
+        qrCodeFrameView.frame = barCodeObject!.bounds
 
-            if metadataObj.stringValue != nil {
-                presenter.push(url: metadataObj.stringValue ?? "")
-                videoPreviewLayer?.session?.stopRunning()
-            }
-        }
+        guard metadataObj.stringValue != nil else { return }
+        presenter.open(url: metadataObj.stringValue ?? "")
+        videoPreviewLayer?.session?.stopRunning()
     }
 }

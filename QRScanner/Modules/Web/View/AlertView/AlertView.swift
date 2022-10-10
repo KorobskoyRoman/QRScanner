@@ -22,7 +22,7 @@ final class AlertView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         let cornerRadius = frame.size.height / 4
-        self.layer.cornerRadius = cornerRadius
+        layer.cornerRadius = cornerRadius
     }
 
     static func showIn(viewController: UIViewController,
@@ -46,7 +46,8 @@ final class AlertView: UIView {
         sharedView.textLabel.text = message
 
         if sharedView?.superview == nil {
-            let y = displayVC.view.frame.height - sharedView.frame.size.height - 30
+            let bottomAnchor: CGFloat = 30
+            let y = displayVC.view.frame.height - sharedView.frame.size.height - bottomAnchor
             sharedView.frame = CGRect(x: 12, y: y, width: displayVC.view.frame.size.width - 24, height: sharedView.frame.size.height)
             sharedView.alpha = 0.0
 

@@ -66,13 +66,12 @@ final class WebViewController: UIViewController {
                                context: UnsafeMutableRawPointer?) {
         if keyPath == "estimatedProgress" {
             progressView.progress = Float(webView.estimatedProgress)
-            print(progressView.progress) // Отследить прогресс
+            print(progressView.progress)
         }
     }
 
     private func hideContent() {
-        UIView.animate(withDuration: 0.3, delay: 1) { [weak self] in
-            guard let self else { return }
+        UIView.animate(withDuration: 0.3, delay: 1) {
             self.progressView.alpha = 0
             self.progressView.removeFromSuperview()
         }
@@ -89,7 +88,8 @@ extension WebViewController: WKNavigationDelegate {
 
 extension WebViewController: WebViewType {
     func showError() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
             AlertView.showIn(viewController: self,
                              message: "Something wrong. Try again later")
         }
