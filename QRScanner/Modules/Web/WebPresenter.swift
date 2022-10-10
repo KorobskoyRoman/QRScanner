@@ -35,7 +35,8 @@ final class WebPresenter: WebPresenterType {
     func getData() {
         guard let url = URL(string: urlString) else { return }
 
-        NetworkService.shared.getData(url: url) { result in
+        NetworkService.shared.getData(url: url) { [weak self] result in
+            guard let self else { return }
             switch result {
             case .success(let data):
                 self.view?.getData(data: data)
