@@ -9,13 +9,13 @@ import UIKit
 import AVFoundation
 import WebKit
 
-protocol ScannerView {
+protocol ScannerViewInput {
     func setupCamera()
     func setupOutputs()
     func setupVideoPreview()
 }
 
-final class ScannerViewController: UIViewController, ScannerView {
+final class ScannerViewController: UIViewController, ScannerViewInput {
     private var presenter: ScannerPresenterType
     private var captureSession = AVCaptureSession()
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
@@ -44,7 +44,6 @@ final class ScannerViewController: UIViewController, ScannerView {
         let captureMetadataOutput = AVCaptureMetadataOutput()
         captureSession.addOutput(captureMetadataOutput)
         captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-//        captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
         captureMetadataOutput.metadataObjectTypes = captureMetadataOutput.availableMetadataObjectTypes
     }
 
@@ -80,7 +79,7 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             qrCodeFrameView.frame = barCodeObject!.bounds
 
             if metadataObj.stringValue != nil {
-                presenter.push(url: metadataObj.stringValue ?? "")
+                presenter.open(url: metadataObj.stringValue ?? "")
                 videoPreviewLayer?.session?.stopRunning()
             }
         }

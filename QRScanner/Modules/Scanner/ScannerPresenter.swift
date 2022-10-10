@@ -10,7 +10,7 @@ import AVFoundation
 protocol ScannerPresenterType {
     func viewDidLoad()
     func setupCamera(captureSession: AVCaptureSession)
-    func push(url: String)
+    func open(url: String)
 }
 
 final class ScannerPresenter: ScannerPresenterType {
@@ -38,7 +38,7 @@ final class ScannerPresenter: ScannerPresenterType {
         }
     }
 
-    func push(url: String) {
+    func open(url: String) {
         coordinator?.performTransition(with: .perform(.web), url: url)
     }
 }
